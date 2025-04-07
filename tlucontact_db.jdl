@@ -1,34 +1,19 @@
-// Enum để định nghĩa vai trò của người dùng
-enum Role {
-  CBGV,
-  SINH_VIEN,
-  ADMIN
+enum UnitType {
+  FACULTY,  // Khoa
+  DEPARTMENT, // Bộ môn
+  CENTER, // Trung tâm
+  INSTITUTE,  // Viện
+  SUBJECT // Môn học
 }
 
-enum Type {
-  KHOA,
-  PHONG_BAN,
-  TRUNG_TAM,
-  VIEN
-}
-
-// Thực thể User - Quản lý thông tin người dùng cơ bản
-entity User {
-  email String required unique pattern(/^([a-zA-Z0-9._%+-]+@(tlu\.edu\.vn|e\.tlu\.edu\.vn))$/),
-  password String required,
-  role Role required,
-  photoURL String,
-}
-
-// Thực thể Unit - Đại diện cho các đơn vị trong trường
 entity Unit {
-  code String required unique,
+  unitCode String required unique,
   name String required,
   address String,
-  logoURL String,
-  email String,
+  logoUrl String,
+  email String unique,
   fax String,
-  type Type required,
+  type UnitType required,
 }
 
 entity Staff {
@@ -37,29 +22,31 @@ entity Staff {
   position String,
   phone String,
   address String,
+  education String,
 }
 
 entity Student {
   studentId String required unique,
   fullName String required,
-  className String
+  phone String,
+  address String,
+  studyClass String,
 }
 
 relationship OneToOne {
-  Staff{user(email)} to User,
-  Student{user(email)} to User
+  Staff{user} to User with builtInEntity,
+  Student{user} to User with builtInEntity
 }
 
 relationship ManyToOne {
-  Staff{unit(id)} to Unit,
-  Student{unit(id)} to Unit
+  Staff{unit} to Unit,
+  Student{unit} to Unit
 }
 
 relationship ManyToOne {
-  Unit{parentUnit(code)} to Unit
+  Unit{parentUnit} to Unit
 }
 
 dto * with mapstruct
 service * with serviceImpl
 paginate * with pagination
-search * with elasticsearch
