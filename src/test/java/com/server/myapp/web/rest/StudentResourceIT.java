@@ -47,9 +47,6 @@ class StudentResourceIT {
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_STUDY_CLASS = "AAAAAAAAAA";
-    private static final String UPDATED_STUDY_CLASS = "BBBBBBBBBB";
-
     private static final String ENTITY_API_URL = "/api/students";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -85,12 +82,7 @@ class StudentResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Student createEntity() {
-        return new Student()
-            .studentId(DEFAULT_STUDENT_ID)
-            .fullName(DEFAULT_FULL_NAME)
-            .phone(DEFAULT_PHONE)
-            .address(DEFAULT_ADDRESS)
-            .studyClass(DEFAULT_STUDY_CLASS);
+        return new Student().studentId(DEFAULT_STUDENT_ID).fullName(DEFAULT_FULL_NAME).phone(DEFAULT_PHONE).address(DEFAULT_ADDRESS);
     }
 
     /**
@@ -100,12 +92,7 @@ class StudentResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Student createUpdatedEntity() {
-        return new Student()
-            .studentId(UPDATED_STUDENT_ID)
-            .fullName(UPDATED_FULL_NAME)
-            .phone(UPDATED_PHONE)
-            .address(UPDATED_ADDRESS)
-            .studyClass(UPDATED_STUDY_CLASS);
+        return new Student().studentId(UPDATED_STUDENT_ID).fullName(UPDATED_FULL_NAME).phone(UPDATED_PHONE).address(UPDATED_ADDRESS);
     }
 
     @BeforeEach
@@ -212,8 +199,7 @@ class StudentResourceIT {
             .andExpect(jsonPath("$.[*].studentId").value(hasItem(DEFAULT_STUDENT_ID)))
             .andExpect(jsonPath("$.[*].fullName").value(hasItem(DEFAULT_FULL_NAME)))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].studyClass").value(hasItem(DEFAULT_STUDY_CLASS)));
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)));
     }
 
     @Test
@@ -231,8 +217,7 @@ class StudentResourceIT {
             .andExpect(jsonPath("$.studentId").value(DEFAULT_STUDENT_ID))
             .andExpect(jsonPath("$.fullName").value(DEFAULT_FULL_NAME))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
-            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
-            .andExpect(jsonPath("$.studyClass").value(DEFAULT_STUDY_CLASS));
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS));
     }
 
     @Test
@@ -254,12 +239,7 @@ class StudentResourceIT {
         Student updatedStudent = studentRepository.findById(student.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedStudent are not directly saved in db
         em.detach(updatedStudent);
-        updatedStudent
-            .studentId(UPDATED_STUDENT_ID)
-            .fullName(UPDATED_FULL_NAME)
-            .phone(UPDATED_PHONE)
-            .address(UPDATED_ADDRESS)
-            .studyClass(UPDATED_STUDY_CLASS);
+        updatedStudent.studentId(UPDATED_STUDENT_ID).fullName(UPDATED_FULL_NAME).phone(UPDATED_PHONE).address(UPDATED_ADDRESS);
         StudentDTO studentDTO = studentMapper.toDto(updatedStudent);
 
         restStudentMockMvc
@@ -345,7 +325,7 @@ class StudentResourceIT {
         Student partialUpdatedStudent = new Student();
         partialUpdatedStudent.setId(student.getId());
 
-        partialUpdatedStudent.phone(UPDATED_PHONE).studyClass(UPDATED_STUDY_CLASS);
+        partialUpdatedStudent.phone(UPDATED_PHONE);
 
         restStudentMockMvc
             .perform(
@@ -373,12 +353,7 @@ class StudentResourceIT {
         Student partialUpdatedStudent = new Student();
         partialUpdatedStudent.setId(student.getId());
 
-        partialUpdatedStudent
-            .studentId(UPDATED_STUDENT_ID)
-            .fullName(UPDATED_FULL_NAME)
-            .phone(UPDATED_PHONE)
-            .address(UPDATED_ADDRESS)
-            .studyClass(UPDATED_STUDY_CLASS);
+        partialUpdatedStudent.studentId(UPDATED_STUDENT_ID).fullName(UPDATED_FULL_NAME).phone(UPDATED_PHONE).address(UPDATED_ADDRESS);
 
         restStudentMockMvc
             .perform(

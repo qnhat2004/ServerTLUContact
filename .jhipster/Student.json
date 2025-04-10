@@ -22,10 +22,6 @@
     {
       "fieldName": "address",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "studyClass",
-      "fieldType": "String"
     }
   ],
   "name": "Student",

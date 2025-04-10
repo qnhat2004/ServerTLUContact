@@ -56,12 +56,6 @@ export const StudentDetail = () => {
           </dt>
           <dd>{studentEntity.address}</dd>
           <dt>
-            <span id="studyClass">
-              <Translate contentKey="serverTluContactApp.student.studyClass">Study Class</Translate>
-            </span>
-          </dt>
-          <dd>{studentEntity.studyClass}</dd>
-          <dt>
             <Translate contentKey="serverTluContactApp.student.user">User</Translate>
           </dt>
           <dd>{studentEntity.user ? studentEntity.user.id : ''}</dd>

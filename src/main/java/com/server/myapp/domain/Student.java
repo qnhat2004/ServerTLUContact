@@ -37,9 +37,6 @@ public class Student implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "study_class")
-    private String studyClass;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private User user;
@@ -115,19 +112,6 @@ public class Student implements Serializable {
         this.address = address;
     }
 
-    public String getStudyClass() {
-        return this.studyClass;
-    }
-
-    public Student studyClass(String studyClass) {
-        this.setStudyClass(studyClass);
-        return this;
-    }
-
-    public void setStudyClass(String studyClass) {
-        this.studyClass = studyClass;
-    }
-
     public User getUser() {
         return this.user;
     }
@@ -182,7 +166,6 @@ public class Student implements Serializable {
             ", fullName='" + getFullName() + "'" +
             ", phone='" + getPhone() + "'" +
             ", address='" + getAddress() + "'" +
-            ", studyClass='" + getStudyClass() + "'" +
             "}";
     }
 }

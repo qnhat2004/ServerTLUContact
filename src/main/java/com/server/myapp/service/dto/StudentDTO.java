@@ -22,8 +22,6 @@ public class StudentDTO implements Serializable {
 
     private String address;
 
-    private String studyClass;
-
     private UserDTO user;
 
     private UnitDTO unit;
@@ -66,14 +64,6 @@ public class StudentDTO implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getStudyClass() {
-        return studyClass;
-    }
-
-    public void setStudyClass(String studyClass) {
-        this.studyClass = studyClass;
     }
 
     public UserDTO getUser() {
@@ -122,7 +112,6 @@ public class StudentDTO implements Serializable {
             ", fullName='" + getFullName() + "'" +
             ", phone='" + getPhone() + "'" +
             ", address='" + getAddress() + "'" +
-            ", studyClass='" + getStudyClass() + "'" +
             ", user=" + getUser() +
             ", unit=" + getUnit() +
             "}";

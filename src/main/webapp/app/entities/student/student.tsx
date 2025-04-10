@@ -129,10 +129,6 @@ export const Student = () => {
                   <Translate contentKey="serverTluContactApp.student.address">Address</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('address')} />
                 </th>
-                <th className="hand" onClick={sort('studyClass')}>
-                  <Translate contentKey="serverTluContactApp.student.studyClass">Study Class</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('studyClass')} />
-                </th>
                 <th>
                   <Translate contentKey="serverTluContactApp.student.user">User</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -154,7 +150,6 @@ export const Student = () => {
                   <td>{student.fullName}</td>
                   <td>{student.phone}</td>
                   <td>{student.address}</td>
-                  <td>{student.studyClass}</td>
                   <td>{student.user ? student.user.id : ''}</td>
                   <td>{student.unit ? <Link to={`/unit/${student.unit.id}`}>{student.unit.id}</Link> : ''}</td>
                   <td className="text-end">

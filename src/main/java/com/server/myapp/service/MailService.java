@@ -1,5 +1,6 @@
 package com.server.myapp.service;
 
+import com.server.myapp.config.Constants;
 import com.server.myapp.domain.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -17,11 +18,6 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import tech.jhipster.config.JHipsterProperties;
 
-/**
- * Service for sending emails asynchronously.
- * <p>
- * We use the {@link Async} annotation to send emails asynchronously.
- */
 @Service
 public class MailService {
 
@@ -66,18 +62,27 @@ public class MailService {
             content
         );
 
-        // Prepare message using a Spring helper
+        if (to == null || to.isEmpty()) {
+            throw new IllegalArgumentException("Recipient email address cannot be null or empty");
+        }
+
+        String from = jHipsterProperties.getMail().getFrom();
+        if (from == null || from.isEmpty()) {
+            throw new IllegalStateException("Sender email address (from) is not configured in JHipster properties");
+        }
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, StandardCharsets.UTF_8.name());
             message.setTo(to);
-            message.setFrom(jHipsterProperties.getMail().getFrom());
+            message.setFrom(from);
             message.setSubject(subject);
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
             LOG.debug("Sent email to User '{}'", to);
         } catch (MailException | MessagingException e) {
-            LOG.warn("Email could not be sent to user '{}'", to, e);
+            LOG.error("Failed to send email to '{}'", to, e);
+            throw new RuntimeException("Failed to send email to " + to, e);
         }
     }
 
@@ -91,18 +96,26 @@ public class MailService {
             LOG.debug("Email doesn't exist for user '{}'", user.getLogin());
             return;
         }
-        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        String langKey = user.getLangKey() != null ? user.getLangKey() : Constants.DEFAULT_LANGUAGE;
+        Locale locale = Locale.forLanguageTag(langKey);
         Context context = new Context(locale);
         context.setVariable(USER, user);
-        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        String baseUrl = jHipsterProperties.getMail().getBaseUrl();
+        if (baseUrl == null || baseUrl.isEmpty()) {
+            throw new IllegalStateException("Base URL is not configured in JHipster properties");
+        }
+        context.setVariable(BASE_URL, baseUrl);
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
         sendEmailSync(user.getEmail(), subject, content, false, true);
     }
 
-    @Async
     public void sendActivationEmail(User user) {
         LOG.debug("Sending activation email to '{}'", user.getEmail());
+        if (user.getEmail() == null) {
+            LOG.debug("Email doesn't exist for user '{}'", user.getLogin());
+            return;
+        }
         sendEmailFromTemplateSync(user, "mail/activationEmail", "email.activation.title");
     }
 

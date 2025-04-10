@@ -1,44 +1,31 @@
 package com.server.myapp.service.dto;
 
-import com.server.myapp.config.Constants;
 import com.server.myapp.domain.Authority;
 import com.server.myapp.domain.User;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * A DTO representing a user, with his authorities.
- */
-public class AdminUserDTO implements Serializable {
+public class MyUserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
-    @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
-    private String login;
-
-    @Size(max = 50)
-    private String firstName;
-
-    @Size(max = 50)
-    private String lastName;
-
     @Email
     @Size(min = 5, max = 254)
     private String email;
+
+    @Size(min = 4, max = 100) // Validation độ dài mật khẩu
+    private String password;
 
     @Size(max = 256)
     private String imageUrl;
 
     private boolean activated = false;
-
-    @Size(min = 2, max = 10)
-    private String langKey;
 
     private String createdBy;
 
@@ -50,19 +37,15 @@ public class AdminUserDTO implements Serializable {
 
     private Set<String> authorities;
 
-    public AdminUserDTO() {
+    public MyUserDTO() {
         // Empty constructor needed for Jackson.
     }
 
-    public AdminUserDTO(User user) {
+    public MyUserDTO(User user) {
         this.id = user.getId();
-        this.login = user.getLogin();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
         this.email = user.getEmail();
         this.activated = user.isActivated();
         this.imageUrl = user.getImageUrl();
-        this.langKey = user.getLangKey();
         this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
@@ -70,6 +53,7 @@ public class AdminUserDTO implements Serializable {
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
+    // Getters và setters
     public Long getId() {
         return id;
     }
@@ -78,36 +62,20 @@ public class AdminUserDTO implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getImageUrl() {
@@ -124,14 +92,6 @@ public class AdminUserDTO implements Serializable {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
-    }
-
-    public String getLangKey() {
-        return langKey;
-    }
-
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
     }
 
     public String getCreatedBy() {
@@ -174,17 +134,13 @@ public class AdminUserDTO implements Serializable {
         this.authorities = authorities;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "AdminUserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
+        return "MyUserDTO{" +
+            "email='" + email + '\'' +
+            ", password='" + password + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
             ", createdBy=" + createdBy +
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +

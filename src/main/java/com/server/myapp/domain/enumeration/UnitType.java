@@ -8,5 +8,6 @@ public enum UnitType {
     DEPARTMENT,
     CENTER,
     INSTITUTE,
+    CLASSROOM,
     SUBJECT,
 }

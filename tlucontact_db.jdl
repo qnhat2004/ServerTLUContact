@@ -3,6 +3,7 @@ enum UnitType {
   DEPARTMENT, // Bộ môn
   CENTER, // Trung tâm
   INSTITUTE,  // Viện
+  CLASSROOM, // Lớp học
   SUBJECT // Môn học
 }
 
@@ -23,6 +24,7 @@ entity Staff {
   phone String,
   address String,
   education String,
+  email String unique,
 }
 
 entity Student {
@@ -30,7 +32,7 @@ entity Student {
   fullName String required,
   phone String,
   address String,
-  studyClass String,
+  email String unique,
 }
 
 relationship OneToOne {

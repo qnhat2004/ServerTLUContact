@@ -7,5 +7,7 @@ export enum UnitType {
 
   INSTITUTE = 'INSTITUTE',
 
+  CLASSROOM = 'CLASSROOM',
+
   SUBJECT = 'SUBJECT',
 }

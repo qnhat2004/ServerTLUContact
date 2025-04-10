@@ -7,7 +7,6 @@ export interface IStudent {
   fullName?: string;
   phone?: string | null;
   address?: string | null;
-  studyClass?: string | null;
   user?: IUser | null;
   unit?: IUnit | null;
 }
