@@ -142,6 +142,13 @@ export const StudentUpdate = () => {
                 validate={{}}
               />
               <ValidatedField
+                label={translate('serverTluContactApp.student.avatarUrl')}
+                id="student-avatarUrl"
+                name="avatarUrl"
+                data-cy="avatarUrl"
+                type="text"
+              />
+              <ValidatedField
                 id="student-user"
                 name="user"
                 data-cy="user"

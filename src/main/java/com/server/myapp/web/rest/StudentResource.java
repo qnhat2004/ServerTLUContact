@@ -142,9 +142,9 @@ public class StudentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of students in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<StudentDTO>> getAllStudents(@org.springdoc.core.annotations.ParameterObject Pageable pageable, @RequestParam(required = false) String search) {
+    public ResponseEntity<List<StudentDTO>> getAllStudents(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of Students");
-        Page<StudentDTO> page = studentService.findAll(pageable, search);
+        Page<StudentDTO> page = studentService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

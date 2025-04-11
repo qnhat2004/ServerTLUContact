@@ -4,8 +4,6 @@ import com.server.myapp.service.dto.StudentDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 
 /**
  * Service Interface for managing {@link com.server.myapp.domain.Student}.
@@ -41,7 +39,7 @@ public interface StudentService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<StudentDTO> findAll(Pageable pageable, String search);
+    Page<StudentDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" student.

@@ -23,6 +23,7 @@
       "phone": "Phone",
       "address": "Address",
       "email": "Email",
+      "avatarUrl": "Avatar Url",
       "user": "User",
       "unit": "Unit"
     }

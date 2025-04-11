@@ -74,6 +74,12 @@ export const StaffDetail = () => {
           </dt>
           <dd>{staffEntity.email}</dd>
           <dt>
+            <span id="avatarUrl">
+              <Translate contentKey="serverTluContactApp.staff.avatarUrl">Avatar Url</Translate>
+            </span>
+          </dt>
+          <dd>{staffEntity.avatarUrl}</dd>
+          <dt>
             <Translate contentKey="serverTluContactApp.staff.user">User</Translate>
           </dt>
           <dd>{staffEntity.user ? staffEntity.user.id : ''}</dd>

@@ -28,6 +28,8 @@ public class StaffDTO implements Serializable {
 
     private String email;
 
+    private String avatarUrl;
+
     private UserDTO user;
 
     private UnitDTO unit;
@@ -96,6 +98,14 @@ public class StaffDTO implements Serializable {
         this.email = email;
     }
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     public UserDTO getUser() {
         return user;
     }
@@ -145,6 +155,7 @@ public class StaffDTO implements Serializable {
             ", address='" + getAddress() + "'" +
             ", education='" + getEducation() + "'" +
             ", email='" + getEmail() + "'" +
+            ", avatarUrl='" + getAvatarUrl() + "'" +
             ", user=" + getUser() +
             ", unit=" + getUnit() +
             "}";

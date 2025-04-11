@@ -62,6 +62,12 @@ export const StudentDetail = () => {
           </dt>
           <dd>{studentEntity.email}</dd>
           <dt>
+            <span id="avatarUrl">
+              <Translate contentKey="serverTluContactApp.student.avatarUrl">Avatar Url</Translate>
+            </span>
+          </dt>
+          <dd>{studentEntity.avatarUrl}</dd>
+          <dt>
             <Translate contentKey="serverTluContactApp.student.user">User</Translate>
           </dt>
           <dd>{studentEntity.user ? studentEntity.user.id : ''}</dd>

@@ -10,6 +10,7 @@ export interface IStaff {
   address?: string | null;
   education?: string | null;
   email?: string | null;
+  avatarUrl?: string | null;
   user?: IUser | null;
   unit?: IUnit | null;
 }

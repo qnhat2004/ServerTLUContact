@@ -25,6 +25,7 @@
       "address": "Address",
       "education": "Education",
       "email": "Email",
+      "avatarUrl": "Avatar Url",
       "user": "User",
       "unit": "Unit"
     }

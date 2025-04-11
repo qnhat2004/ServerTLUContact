@@ -27,6 +27,10 @@
       "fieldName": "email",
       "fieldType": "String",
       "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "avatarUrl",
+      "fieldType": "String"
     }
   ],
   "name": "Student",

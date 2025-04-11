@@ -8,6 +8,7 @@ export interface IStudent {
   phone?: string | null;
   address?: string | null;
   email?: string | null;
+  avatarUrl?: string | null;
   user?: IUser | null;
   unit?: IUnit | null;
 }

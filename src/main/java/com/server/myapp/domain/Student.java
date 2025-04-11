@@ -40,6 +40,9 @@ public class Student implements Serializable {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private User user;
@@ -128,6 +131,19 @@ public class Student implements Serializable {
         this.email = email;
     }
 
+    public String getAvatarUrl() {
+        return this.avatarUrl;
+    }
+
+    public Student avatarUrl(String avatarUrl) {
+        this.setAvatarUrl(avatarUrl);
+        return this;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -183,6 +199,7 @@ public class Student implements Serializable {
             ", phone='" + getPhone() + "'" +
             ", address='" + getAddress() + "'" +
             ", email='" + getEmail() + "'" +
+            ", avatarUrl='" + getAvatarUrl() + "'" +
             "}";
     }
 }

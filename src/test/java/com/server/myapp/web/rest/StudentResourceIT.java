@@ -50,6 +50,9 @@ class StudentResourceIT {
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_AVATAR_URL = "AAAAAAAAAA";
+    private static final String UPDATED_AVATAR_URL = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/students";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -90,7 +93,8 @@ class StudentResourceIT {
             .fullName(DEFAULT_FULL_NAME)
             .phone(DEFAULT_PHONE)
             .address(DEFAULT_ADDRESS)
-            .email(DEFAULT_EMAIL);
+            .email(DEFAULT_EMAIL)
+            .avatarUrl(DEFAULT_AVATAR_URL);
     }
 
     /**
@@ -105,7 +109,8 @@ class StudentResourceIT {
             .fullName(UPDATED_FULL_NAME)
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .avatarUrl(UPDATED_AVATAR_URL);
     }
 
     @BeforeEach
@@ -213,7 +218,8 @@ class StudentResourceIT {
             .andExpect(jsonPath("$.[*].fullName").value(hasItem(DEFAULT_FULL_NAME)))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].avatarUrl").value(hasItem(DEFAULT_AVATAR_URL)));
     }
 
     @Test
@@ -232,7 +238,8 @@ class StudentResourceIT {
             .andExpect(jsonPath("$.fullName").value(DEFAULT_FULL_NAME))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
+            .andExpect(jsonPath("$.avatarUrl").value(DEFAULT_AVATAR_URL));
     }
 
     @Test
@@ -259,7 +266,8 @@ class StudentResourceIT {
             .fullName(UPDATED_FULL_NAME)
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .avatarUrl(UPDATED_AVATAR_URL);
         StudentDTO studentDTO = studentMapper.toDto(updatedStudent);
 
         restStudentMockMvc
@@ -345,7 +353,7 @@ class StudentResourceIT {
         Student partialUpdatedStudent = new Student();
         partialUpdatedStudent.setId(student.getId());
 
-        partialUpdatedStudent.phone(UPDATED_PHONE).email(UPDATED_EMAIL);
+        partialUpdatedStudent.phone(UPDATED_PHONE).email(UPDATED_EMAIL).avatarUrl(UPDATED_AVATAR_URL);
 
         restStudentMockMvc
             .perform(
@@ -378,7 +386,8 @@ class StudentResourceIT {
             .fullName(UPDATED_FULL_NAME)
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .avatarUrl(UPDATED_AVATAR_URL);
 
         restStudentMockMvc
             .perform(

@@ -56,6 +56,9 @@ class StaffResourceIT {
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_AVATAR_URL = "AAAAAAAAAA";
+    private static final String UPDATED_AVATAR_URL = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/staff";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -98,7 +101,8 @@ class StaffResourceIT {
             .phone(DEFAULT_PHONE)
             .address(DEFAULT_ADDRESS)
             .education(DEFAULT_EDUCATION)
-            .email(DEFAULT_EMAIL);
+            .email(DEFAULT_EMAIL)
+            .avatarUrl(DEFAULT_AVATAR_URL);
     }
 
     /**
@@ -115,7 +119,8 @@ class StaffResourceIT {
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
             .education(UPDATED_EDUCATION)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .avatarUrl(UPDATED_AVATAR_URL);
     }
 
     @BeforeEach
@@ -225,7 +230,8 @@ class StaffResourceIT {
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].education").value(hasItem(DEFAULT_EDUCATION)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].avatarUrl").value(hasItem(DEFAULT_AVATAR_URL)));
     }
 
     @Test
@@ -246,7 +252,8 @@ class StaffResourceIT {
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.education").value(DEFAULT_EDUCATION))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
+            .andExpect(jsonPath("$.avatarUrl").value(DEFAULT_AVATAR_URL));
     }
 
     @Test
@@ -275,7 +282,8 @@ class StaffResourceIT {
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
             .education(UPDATED_EDUCATION)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .avatarUrl(UPDATED_AVATAR_URL);
         StaffDTO staffDTO = staffMapper.toDto(updatedStaff);
 
         restStaffMockMvc
@@ -361,7 +369,7 @@ class StaffResourceIT {
         Staff partialUpdatedStaff = new Staff();
         partialUpdatedStaff.setId(staff.getId());
 
-        partialUpdatedStaff.phone(UPDATED_PHONE).email(UPDATED_EMAIL);
+        partialUpdatedStaff.phone(UPDATED_PHONE).email(UPDATED_EMAIL).avatarUrl(UPDATED_AVATAR_URL);
 
         restStaffMockMvc
             .perform(
@@ -396,7 +404,8 @@ class StaffResourceIT {
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
             .education(UPDATED_EDUCATION)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .avatarUrl(UPDATED_AVATAR_URL);
 
         restStaffMockMvc
             .perform(

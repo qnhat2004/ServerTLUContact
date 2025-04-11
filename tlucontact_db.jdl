@@ -25,6 +25,7 @@ entity Staff {
   address String,
   education String,
   email String unique,
+  avatarUrl String,
 }
 
 entity Student {
@@ -33,6 +34,7 @@ entity Student {
   phone String,
   address String,
   email String unique,
+  avatarUrl String,
 }
 
 relationship OneToOne {

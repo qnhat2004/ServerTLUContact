@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,16 +64,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<StudentDTO> findAll(Pageable pageable, String search) {
+    public Page<StudentDTO> findAll(Pageable pageable) {
         LOG.debug("Request to get all Students");
-//        return studentRepository.findAll(pageable).map(studentMapper::toDto);
-        if (search == null || search.isEmpty()) {
-            return studentRepository.findAll(pageable)
-                .map(studentMapper::toDto);
-        } else {
-            return studentRepository.findBySearchQuery(search, pageable)
-                .map(studentMapper::toDto);
-        }
+        return studentRepository.findAll(pageable).map(studentMapper::toDto);
     }
 
     @Override
