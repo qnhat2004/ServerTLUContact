@@ -22,6 +22,7 @@
       "fullName": "Full Name",
       "phone": "Phone",
       "address": "Address",
+      "email": "Email",
       "user": "User",
       "unit": "Unit"
     }

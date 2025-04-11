@@ -30,6 +30,11 @@
     {
       "fieldName": "education",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
     }
   ],
   "name": "Staff",

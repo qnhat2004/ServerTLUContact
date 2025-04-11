@@ -17,7 +17,8 @@ public class StaffTestSamples {
             .position("position1")
             .phone("phone1")
             .address("address1")
-            .education("education1");
+            .education("education1")
+            .email("email1");
     }
 
     public static Staff getStaffSample2() {
@@ -28,7 +29,8 @@ public class StaffTestSamples {
             .position("position2")
             .phone("phone2")
             .address("address2")
-            .education("education2");
+            .education("education2")
+            .email("email2");
     }
 
     public static Staff getStaffRandomSampleGenerator() {
@@ -39,6 +41,7 @@ public class StaffTestSamples {
             .position(UUID.randomUUID().toString())
             .phone(UUID.randomUUID().toString())
             .address(UUID.randomUUID().toString())
-            .education(UUID.randomUUID().toString());
+            .education(UUID.randomUUID().toString())
+            .email(UUID.randomUUID().toString());
     }
 }

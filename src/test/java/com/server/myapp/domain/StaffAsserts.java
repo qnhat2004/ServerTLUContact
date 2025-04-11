@@ -52,7 +52,8 @@ public class StaffAsserts {
             .satisfies(e -> assertThat(e.getPosition()).as("check position").isEqualTo(actual.getPosition()))
             .satisfies(e -> assertThat(e.getPhone()).as("check phone").isEqualTo(actual.getPhone()))
             .satisfies(e -> assertThat(e.getAddress()).as("check address").isEqualTo(actual.getAddress()))
-            .satisfies(e -> assertThat(e.getEducation()).as("check education").isEqualTo(actual.getEducation()));
+            .satisfies(e -> assertThat(e.getEducation()).as("check education").isEqualTo(actual.getEducation()))
+            .satisfies(e -> assertThat(e.getEmail()).as("check email").isEqualTo(actual.getEmail()));
     }
 
     /**

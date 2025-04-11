@@ -147,6 +147,14 @@ export const StaffUpdate = () => {
                 data-cy="education"
                 type="text"
               />
+              <ValidatedField
+                label={translate('serverTluContactApp.staff.email')}
+                id="staff-email"
+                name="email"
+                data-cy="email"
+                type="text"
+                validate={{}}
+              />
               <ValidatedField id="staff-user" name="user" data-cy="user" label={translate('serverTluContactApp.staff.user')} type="select">
                 <option value="" key="0" />
                 {users

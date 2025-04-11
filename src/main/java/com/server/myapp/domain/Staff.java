@@ -43,6 +43,9 @@ public class Staff implements Serializable {
     @Column(name = "education")
     private String education;
 
+    @Column(name = "email", unique = true)
+    private String email;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private User user;
@@ -144,6 +147,19 @@ public class Staff implements Serializable {
         this.education = education;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public Staff email(String email) {
+        this.setEmail(email);
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -200,6 +216,7 @@ public class Staff implements Serializable {
             ", phone='" + getPhone() + "'" +
             ", address='" + getAddress() + "'" +
             ", education='" + getEducation() + "'" +
+            ", email='" + getEmail() + "'" +
             "}";
     }
 }

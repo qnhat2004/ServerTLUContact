@@ -9,6 +9,7 @@ export interface IStaff {
   phone?: string | null;
   address?: string | null;
   education?: string | null;
+  email?: string | null;
   user?: IUser | null;
   unit?: IUnit | null;
 }

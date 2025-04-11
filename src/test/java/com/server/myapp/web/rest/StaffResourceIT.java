@@ -53,6 +53,9 @@ class StaffResourceIT {
     private static final String DEFAULT_EDUCATION = "AAAAAAAAAA";
     private static final String UPDATED_EDUCATION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/staff";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -94,7 +97,8 @@ class StaffResourceIT {
             .position(DEFAULT_POSITION)
             .phone(DEFAULT_PHONE)
             .address(DEFAULT_ADDRESS)
-            .education(DEFAULT_EDUCATION);
+            .education(DEFAULT_EDUCATION)
+            .email(DEFAULT_EMAIL);
     }
 
     /**
@@ -110,7 +114,8 @@ class StaffResourceIT {
             .position(UPDATED_POSITION)
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
-            .education(UPDATED_EDUCATION);
+            .education(UPDATED_EDUCATION)
+            .email(UPDATED_EMAIL);
     }
 
     @BeforeEach
@@ -219,7 +224,8 @@ class StaffResourceIT {
             .andExpect(jsonPath("$.[*].position").value(hasItem(DEFAULT_POSITION)))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].education").value(hasItem(DEFAULT_EDUCATION)));
+            .andExpect(jsonPath("$.[*].education").value(hasItem(DEFAULT_EDUCATION)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
     }
 
     @Test
@@ -239,7 +245,8 @@ class StaffResourceIT {
             .andExpect(jsonPath("$.position").value(DEFAULT_POSITION))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
-            .andExpect(jsonPath("$.education").value(DEFAULT_EDUCATION));
+            .andExpect(jsonPath("$.education").value(DEFAULT_EDUCATION))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
     }
 
     @Test
@@ -267,7 +274,8 @@ class StaffResourceIT {
             .position(UPDATED_POSITION)
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
-            .education(UPDATED_EDUCATION);
+            .education(UPDATED_EDUCATION)
+            .email(UPDATED_EMAIL);
         StaffDTO staffDTO = staffMapper.toDto(updatedStaff);
 
         restStaffMockMvc
@@ -353,7 +361,7 @@ class StaffResourceIT {
         Staff partialUpdatedStaff = new Staff();
         partialUpdatedStaff.setId(staff.getId());
 
-        partialUpdatedStaff.phone(UPDATED_PHONE);
+        partialUpdatedStaff.phone(UPDATED_PHONE).email(UPDATED_EMAIL);
 
         restStaffMockMvc
             .perform(
@@ -387,7 +395,8 @@ class StaffResourceIT {
             .position(UPDATED_POSITION)
             .phone(UPDATED_PHONE)
             .address(UPDATED_ADDRESS)
-            .education(UPDATED_EDUCATION);
+            .education(UPDATED_EDUCATION)
+            .email(UPDATED_EMAIL);
 
         restStaffMockMvc
             .perform(

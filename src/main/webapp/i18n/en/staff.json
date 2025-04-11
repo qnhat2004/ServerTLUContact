@@ -24,6 +24,7 @@
       "phone": "Phone",
       "address": "Address",
       "education": "Education",
+      "email": "Email",
       "user": "User",
       "unit": "Unit"
     }

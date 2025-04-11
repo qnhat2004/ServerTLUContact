@@ -22,6 +22,11 @@
     {
       "fieldName": "address",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
     }
   ],
   "name": "Student",

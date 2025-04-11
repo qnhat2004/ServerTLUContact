@@ -26,6 +26,8 @@ public class StaffDTO implements Serializable {
 
     private String education;
 
+    private String email;
+
     private UserDTO user;
 
     private UnitDTO unit;
@@ -86,6 +88,14 @@ public class StaffDTO implements Serializable {
         this.education = education;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public UserDTO getUser() {
         return user;
     }
@@ -134,6 +144,7 @@ public class StaffDTO implements Serializable {
             ", phone='" + getPhone() + "'" +
             ", address='" + getAddress() + "'" +
             ", education='" + getEducation() + "'" +
+            ", email='" + getEmail() + "'" +
             ", user=" + getUser() +
             ", unit=" + getUnit() +
             "}";
