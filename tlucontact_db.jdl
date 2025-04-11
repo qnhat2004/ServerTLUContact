@@ -1,0 +1,54 @@
+enum UnitType {
+  FACULTY,  // Khoa
+  DEPARTMENT, // Bộ môn
+  CENTER, // Trung tâm
+  INSTITUTE,  // Viện
+  CLASSROOM, // Lớp học
+  SUBJECT // Môn học
+}
+
+entity Unit {
+  unitCode String required unique,
+  name String required,
+  address String,
+  logoUrl String,
+  email String unique,
+  fax String,
+  type UnitType required,
+}
+
+entity Staff {
+  staffId String required unique,
+  fullName String required,
+  position String,
+  phone String,
+  address String,
+  education String,
+  email String unique,
+}
+
+entity Student {
+  studentId String required unique,
+  fullName String required,
+  phone String,
+  address String,
+  email String unique,
+}
+
+relationship OneToOne {
+  Staff{user} to User with builtInEntity,
+  Student{user} to User with builtInEntity
+}
+
+relationship ManyToOne {
+  Staff{unit} to Unit,
+  Student{unit} to Unit
+}
+
+relationship ManyToOne {
+  Unit{parentUnit} to Unit
+}
+
+dto * with mapstruct
+service * with serviceImpl
+paginate * with pagination

@@ -1,0 +1,13 @@
+export enum UnitType {
+  FACULTY = 'FACULTY',
+
+  DEPARTMENT = 'DEPARTMENT',
+
+  CENTER = 'CENTER',
+
+  INSTITUTE = 'INSTITUTE',
+
+  CLASSROOM = 'CLASSROOM',
+
+  SUBJECT = 'SUBJECT',
+}

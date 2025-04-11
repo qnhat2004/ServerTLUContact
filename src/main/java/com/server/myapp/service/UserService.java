@@ -2,12 +2,17 @@ package com.server.myapp.service;
 
 import com.server.myapp.config.Constants;
 import com.server.myapp.domain.Authority;
+import com.server.myapp.domain.Staff;
+import com.server.myapp.domain.Student;
 import com.server.myapp.domain.User;
 import com.server.myapp.repository.AuthorityRepository;
+import com.server.myapp.repository.StaffRepository;
+import com.server.myapp.repository.StudentRepository;
 import com.server.myapp.repository.UserRepository;
 import com.server.myapp.security.AuthoritiesConstants;
 import com.server.myapp.security.SecurityUtils;
 import com.server.myapp.service.dto.AdminUserDTO;
+import com.server.myapp.service.dto.MyUserDTO;
 import com.server.myapp.service.dto.UserDTO;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -40,17 +45,23 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+    private final StaffRepository staffRepository;
+    private final StudentRepository studentRepository;
+    private final MailService mailService;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
-    ) {
+        CacheManager cacheManager,
+        StaffRepository staffRepository, StudentRepository studentRepository, MailService mailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.staffRepository = staffRepository;
+        this.studentRepository = studentRepository;
+        this.mailService = mailService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -130,6 +141,63 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+        this.clearUserCaches(newUser);
+        LOG.debug("Created Information for User: {}", newUser);
+        return newUser;
+    }
+
+    // Register with only email and password
+    public User registerUser(MyUserDTO userDTO, String password) {
+        userRepository
+            .findOneByEmailIgnoreCase(userDTO.getEmail())
+            .ifPresent(existingUser -> {
+                boolean removed = removeNonActivatedUser(existingUser);
+                if (!removed) {
+                    throw new EmailAlreadyUsedException();
+                }
+            });
+
+        User newUser = new User();
+        String encryptedPassword = passwordEncoder.encode(password);
+        newUser.setLogin(userDTO.getEmail().toLowerCase()); // Sử dụng email làm login
+        newUser.setEmail(userDTO.getEmail().toLowerCase());
+        newUser.setPassword(encryptedPassword);
+        newUser.setImageUrl(userDTO.getImageUrl());
+        newUser.setActivated(false);
+        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        newUser.setLangKey("vi"); //
+
+        // Phân quyền dựa vào email
+        Set<Authority> authorities = new HashSet<>();
+        if (userDTO.getEmail().endsWith("@tlu.edu.vn")) {
+            authorities.add(authorityRepository.findById("ROLE_TEACHER").orElseThrow());
+        } else if (userDTO.getEmail().endsWith("@e.tlu.edu.vn")) {
+            authorities.add(authorityRepository.findById("ROLE_STUDENT").orElseThrow());
+        } else {
+            throw new IllegalArgumentException("Email must end with @tlu.edu.vn or @e.tlu.edu.vn");
+        }
+        newUser.setAuthorities(authorities);
+
+        userRepository.save(newUser);
+
+        // Tạo bản ghi Staff hoặc Student
+        if (userDTO.getEmail().endsWith("@tlu.edu.vn")) {
+            Staff staff = new Staff();
+            staff.setStaffId(newUser.getLogin()); // Sử dụng login làm staffId
+            staff.setFullName(""); // Để trống, người dùng sẽ cập nhật sau
+            staff.setUser(newUser);
+            staffRepository.save(staff);
+        } else {
+            Student student = new Student();
+            student.setStudentId(newUser.getLogin()); // Sử dụng login làm studentId
+            student.setFullName(""); // Để trống, người dùng sẽ cập nhật sau
+            student.setUser(newUser);
+            studentRepository.save(student);
+        }
+
+        // Gửi email xác thực
+        mailService.sendActivationEmail(newUser);
+
         this.clearUserCaches(newUser);
         LOG.debug("Created Information for User: {}", newUser);
         return newUser;

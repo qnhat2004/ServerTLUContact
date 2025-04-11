@@ -6,6 +6,7 @@ import com.server.myapp.security.SecurityUtils;
 import com.server.myapp.service.MailService;
 import com.server.myapp.service.UserService;
 import com.server.myapp.service.dto.AdminUserDTO;
+import com.server.myapp.service.dto.MyUserDTO;
 import com.server.myapp.service.dto.PasswordChangeDTO;
 import com.server.myapp.web.rest.errors.*;
 import com.server.myapp.web.rest.vm.KeyAndPasswordVM;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -56,11 +58,11 @@ public class AccountResource {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
-        if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
+    public void registerAccount(@Valid @RequestBody MyUserDTO myUserDTO) {
+        if (isPasswordLengthInvalid(myUserDTO.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        User user = userService.registerUser(myUserDTO, myUserDTO.getPassword());
         mailService.sendActivationEmail(user);
     }
 
@@ -71,11 +73,10 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be activated.
      */
     @GetMapping("/activate")
-    public void activateAccount(@RequestParam(value = "key") String key) {
+    public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistration(key);
-        if (!user.isPresent()) {
-            throw new AccountResourceException("No user was found for this activation key");
-        }
+        return user.map(u -> ResponseEntity.ok("Account activated successfully"))
+            .orElseThrow(() -> new AccountResourceException("No user was found for this activation key"));
     }
 
     /**

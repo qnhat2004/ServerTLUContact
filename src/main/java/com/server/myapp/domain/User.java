@@ -31,7 +31,6 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
     @Column(length = 50, unique = true, nullable = false)
@@ -51,6 +50,7 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @NotNull
     @Email
     @Size(min = 5, max = 254)
     @Column(length = 254, unique = true)
