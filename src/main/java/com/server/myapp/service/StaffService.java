@@ -55,4 +55,6 @@ public interface StaffService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<StaffDTO> findOneByUserId(Long id);
 }

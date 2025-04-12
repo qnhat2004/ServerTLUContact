@@ -176,4 +176,11 @@ public class StaffResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<StaffDTO> getStaffByUserId(@PathVariable Long id) {
+        LOG.debug("REST request to get Staff by userId : {}", id);
+        Optional<StaffDTO> staffDTO = staffService.findOneByUserId(id);
+        return ResponseUtil.wrapOrNotFound(staffDTO);
+    }
 }

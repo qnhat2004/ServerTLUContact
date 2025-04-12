@@ -81,4 +81,10 @@ public class StaffServiceImpl implements StaffService {
         LOG.debug("Request to delete Staff : {}", id);
         staffRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<StaffDTO> findOneByUserId(Long id) {
+        LOG.debug("Request to get Staff by userId : {}", id);
+        return staffRepository.findByUserId(id).map(staffMapper::toDto);
+    }
 }

@@ -157,15 +157,28 @@ public class UserService {
                 }
             });
 
+        // Kiểm tra email trong Staff hoặc Student
+        if (userDTO.getEmail().endsWith("@tlu.edu.vn")) {
+            Optional<Staff> staffOptional = staffRepository.findByEmail(userDTO.getEmail());
+            if (staffOptional.isEmpty()) {
+                throw new IllegalArgumentException("Không tìm thấy email trong danh sách giảng viên");
+            }
+        } else if (userDTO.getEmail().endsWith("@e.tlu.edu.vn")) {
+            Optional<Student> studentOptional = studentRepository.findByEmail(userDTO.getEmail());
+            if (studentOptional.isEmpty()) {
+                throw new IllegalArgumentException("Không tìm thấy email trong danh sách sinh viên");
+            }
+        } else {
+            throw new IllegalArgumentException("Email phải kết thúc bằng @tlu.edu.vn hoặc @e.tlu.edu.vn");
+        }
+
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getEmail().toLowerCase()); // Sử dụng email làm login
         newUser.setEmail(userDTO.getEmail().toLowerCase());
         newUser.setPassword(encryptedPassword);
-        newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setActivated(false);
         newUser.setActivationKey(RandomUtil.generateActivationKey());
-        newUser.setLangKey("vi"); //
 
         // Phân quyền dựa vào email
         Set<Authority> authorities = new HashSet<>();
@@ -176,21 +189,19 @@ public class UserService {
         } else {
             throw new IllegalArgumentException("Email must end with @tlu.edu.vn or @e.tlu.edu.vn");
         }
+        // Thêm quyền USER mặc định
+        authorities.add(authorityRepository.findById("ROLE_USER").orElseThrow());
         newUser.setAuthorities(authorities);
 
         userRepository.save(newUser);
 
-        // Tạo bản ghi Staff hoặc Student
+        // Liên kết User với Staff hoặc Student
         if (userDTO.getEmail().endsWith("@tlu.edu.vn")) {
-            Staff staff = new Staff();
-            staff.setStaffId(newUser.getLogin()); // Sử dụng login làm staffId
-            staff.setFullName(""); // Để trống, người dùng sẽ cập nhật sau
+            Staff staff = staffRepository.findByEmail(userDTO.getEmail()).orElseThrow();
             staff.setUser(newUser);
             staffRepository.save(staff);
         } else {
-            Student student = new Student();
-            student.setStudentId(newUser.getLogin()); // Sử dụng login làm studentId
-            student.setFullName(""); // Để trống, người dùng sẽ cập nhật sau
+            Student student = studentRepository.findByEmail(userDTO.getEmail()).orElseThrow();
             student.setUser(newUser);
             studentRepository.save(student);
         }

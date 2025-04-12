@@ -22,11 +22,6 @@ public class MyUserDTO implements Serializable {
     @Size(min = 4, max = 100) // Validation độ dài mật khẩu
     private String password;
 
-    @Size(max = 256)
-    private String imageUrl;
-
-    private boolean activated = false;
-
     private String createdBy;
 
     private Instant createdDate;
@@ -44,8 +39,6 @@ public class MyUserDTO implements Serializable {
     public MyUserDTO(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
-        this.activated = user.isActivated();
-        this.imageUrl = user.getImageUrl();
         this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
@@ -76,22 +69,6 @@ public class MyUserDTO implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
     }
 
     public String getCreatedBy() {
@@ -139,8 +116,6 @@ public class MyUserDTO implements Serializable {
         return "MyUserDTO{" +
             "email='" + email + '\'' +
             ", password='" + password + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
             ", createdBy=" + createdBy +
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
