@@ -10,4 +10,5 @@ public enum UnitType {
     INSTITUTE,
     CLASSROOM,
     SUBJECT,
+    OFFICE,
 }

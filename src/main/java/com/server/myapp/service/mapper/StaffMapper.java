@@ -14,7 +14,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface StaffMapper extends EntityMapper<StaffDTO, Staff> {
     @Mapping(target = "user", source = "user", qualifiedByName = "userId")
-    @Mapping(target = "unit", source = "unit")
+    @Mapping(target = "unit", source = "unit", qualifiedByName = "unitId")
     StaffDTO toDto(Staff s);
 
     @Named("userId")

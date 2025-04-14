@@ -159,6 +159,10 @@ public class UnitResource {
     public ResponseEntity<UnitDTO> getUnit(@PathVariable("id") Long id) {
         LOG.debug("REST request to get Unit : {}", id);
         Optional<UnitDTO> unitDTO = unitService.findOne(id);
+        if (unitDTO.isPresent()) {
+            List<Long> childUnitIds = unitService.findAllByParentUnitId(id).orElse(List.of());
+            unitDTO.get().setChildUnitIds(childUnitIds);
+        }
         return ResponseUtil.wrapOrNotFound(unitDTO);
     }
 

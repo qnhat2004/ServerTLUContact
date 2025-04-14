@@ -5,6 +5,8 @@ import com.server.myapp.repository.UnitRepository;
 import com.server.myapp.service.UnitService;
 import com.server.myapp.service.dto.UnitDTO;
 import com.server.myapp.service.mapper.UnitMapper;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,5 +82,11 @@ public class UnitServiceImpl implements UnitService {
     public void delete(Long id) {
         LOG.debug("Request to delete Unit : {}", id);
         unitRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<List<Long>> findAllByParentUnitId(Long id) {
+        LOG.debug("Request to get all Unit by parentUnitId : {}", id);
+        return Optional.ofNullable(unitRepository.findAllByParentUnitId(id));
     }
 }

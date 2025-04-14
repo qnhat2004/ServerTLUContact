@@ -3,6 +3,7 @@ package com.server.myapp.web.rest;
 import com.server.myapp.repository.StudentRepository;
 import com.server.myapp.service.StudentService;
 import com.server.myapp.service.dto.StudentDTO;
+import com.server.myapp.service.mapper.StudentMapper;
 import com.server.myapp.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -175,5 +176,36 @@ public class StudentResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<StudentDTO> getStudentByUserId(@PathVariable("id") Long id) {
+        LOG.debug("REST request to get Student by userId : {}", id);
+        Optional<StudentDTO> studentDTO = studentService.findOneByUserId(id);
+        return ResponseUtil.wrapOrNotFound(studentDTO);
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<StudentDTO> updateStudentByUserId(
+        @PathVariable("id") Long id,
+        @Valid @RequestBody StudentDTO studentDTO
+    ) throws URISyntaxException {
+        LOG.debug("REST request to update Student by userId : {}, {}", id, studentDTO);
+        if (studentDTO.getId() != null) {
+            throw new BadRequestAlertException("A new student cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Optional<StudentDTO> updatedStudentDTO = studentService.updateByUserId(id, studentDTO);
+        return updatedStudentDTO.map(dto -> ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, dto.getId().toString()))
+                .body(dto))
+            .orElseThrow(() -> new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+    }
+
+    // get student by unit id
+    @GetMapping("/studentUnit")
+    public ResponseEntity<List<StudentDTO>> getStudentByUnitId() {
+        LOG.debug("REST request to get Student by unitId : {}");
+        List<StudentDTO> page = studentService.findAllByUnitId();
+        return ResponseEntity.ok().body(page);
     }
 }

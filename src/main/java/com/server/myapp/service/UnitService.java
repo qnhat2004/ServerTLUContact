@@ -1,6 +1,8 @@
 package com.server.myapp.service;
 
 import com.server.myapp.service.dto.UnitDTO;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,4 +57,6 @@ public interface UnitService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<List<Long>> findAllByParentUnitId(Long id);
 }

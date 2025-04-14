@@ -1,6 +1,8 @@
 package com.server.myapp.service;
 
 import com.server.myapp.service.dto.StudentDTO;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,4 +57,12 @@ public interface StudentService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<StudentDTO> findOneByUserId(Long id);
+
+    // Update student by user id
+    Optional<StudentDTO> updateByUserId(Long id, StudentDTO studentDTO);
+
+    // Get all student by unit id
+    List<StudentDTO> findAllByUnitId();
 }

@@ -3,6 +3,7 @@ package com.server.myapp.service.dto;
 import com.server.myapp.domain.enumeration.UnitType;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,6 +32,17 @@ public class UnitDTO implements Serializable {
     private UnitType type;
 
     private UnitDTO parentUnit;
+
+    @Null
+    private List<Long> childUnitIds;
+
+    public List<Long> getChildUnitIds() {
+        return childUnitIds;
+    }
+
+    public void setChildUnitIds(List<Long> childUnitIds) {
+        this.childUnitIds = childUnitIds;
+    }
 
     public Long getId() {
         return id;
